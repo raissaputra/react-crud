@@ -7,7 +7,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 const NavbarComponent = () => {
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="primary" expand="lg">
         <Container>
           <Navbar.Brand href="#home">CRUD-REACTJS</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

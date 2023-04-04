@@ -25,17 +25,37 @@ export default class Crud extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.setState({
-      makanan: [
-        ...this.state.makanan,
-        {
-          id: this.state.makanan.length + 1,
-          nama: this.state.nama,
-          deskripsi: this.state.deskripsi,
-          harga: this.state.harga,
-        },
-      ],
-    });
+    if (this.state.id === "") {
+      this.setState({
+        makanan: [
+          ...this.state.makanan,
+          {
+            id: this.state.makanan.length + 1,
+            nama: this.state.nama,
+            deskripsi: this.state.deskripsi,
+            harga: this.state.harga,
+          },
+        ],
+      });
+    } else {
+      const makananTidakDiPilih = this.state.makanan
+        .filter((makanan) => makanan.id !== this.state.id)
+        .map((filterMakanan) => filterMakanan);
+
+      this.setState({
+        makanan: [
+          ...makananTidakDiPilih,
+          {
+            id: this.state.makanan.length + 1,
+            nama: this.state.nama,
+            deskripsi: this.state.deskripsi,
+            harga: this.state.harga,
+          },
+        ],
+      });
+    }
+
+    
 
     this.setState({
       nama: "",
@@ -45,12 +65,25 @@ export default class Crud extends Component {
     });
   };
 
+  editData = (id) => {
+    const makananPilih = this.state.makanan
+      .filter((makanan) => makanan.id === id)
+      .map((filterMakanan) => filterMakanan);
+
+    this.setState({
+      nama: makananPilih[0].nama,
+      deskripsi: makananPilih[0].deskripsi,
+      harga: makananPilih[0].harga,
+      id: makananPilih[0].id,
+    });
+  };
+
   render() {
     return (
       <div>
         <NavbarComponent />
         <div className="container mt-4">
-          <Tabel makanan={this.state.makanan} />
+          <Tabel makanan={this.state.makanan} editData={this.editData} />
           <Formulir
             {...this.state}
             handleChange={this.handleChange}
